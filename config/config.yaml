@@ -1,0 +1,112 @@
+# =============================================================================
+# TRD_BOT_V3 Configuration File
+# - Exchange / Global Settings (including testnet)
+# - Capital & Global Risk Defaults
+# - Default Trading Settings
+# - Per-Symbol Strategy Blocks (grid, mean_reversion, ml)
+# =============================================================================
+
+exchange:
+  name: "binance-futures"
+  testnet: true
+
+capital_usdt: 200
+
+risk_defaults:
+  max_position_size_pct: 5
+  stop_loss_pct: 0.02
+  take_profit_pct: 0.04
+
+defaults:
+  leverage: 3
+  position_mode: "HEDGE"
+
+trading_enabled: true
+
+symbols:
+  # ========================
+  # Solana / USDT Futures
+  # ========================
+  SOLUSDT:
+    enabled: true
+    contract_type: PERPETUAL
+    allocation_pct: 20
+    strategy: "grid"
+    leverage: 3
+    position_mode: "HEDGE"
+    stop_loss_pct: 0.015
+    take_profit_pct: 0.03
+
+    grid:
+      vol_lookback: 89
+      vol_multiplier: 2.0
+      base_spacing_pct: 0.01
+
+  # ========================
+  # Ripple / USDT Futures (Mean Reversion)
+  # ========================
+  XRPUSDT:
+    enabled: true
+    contract_type: PERPETUAL
+    allocation_pct: 20
+    strategy: "mean_reversion"
+    leverage: 3
+    position_mode: "HEDGE"
+    stop_loss_pct: 0.02
+    take_profit_pct: 0.04
+
+    mean_reversion:
+      lookback: 50
+      interval: "1h"
+      rsi_period: 14
+      rsi_oversold: 30
+      rsi_overbought: 70
+      trend_lookback: 50
+      lt_vol_lookback: 200
+      sigma_bank: [1.5, 2.0, 2.5, 3.0]
+
+  # ========================
+  # Binance Coin / USDT Futures
+  # ========================
+  BNBUSDT:
+    enabled: false
+    contract_type: PERPETUAL
+    allocation_pct: 5
+    strategy: "grid"
+    leverage: 8
+    position_mode: "HEDGE"
+    stop_loss_pct: 0.02
+    take_profit_pct: 0.05
+
+    grid:
+      vol_lookback: 25
+      vol_multiplier: 2.5
+      base_spacing_pct: 0.02
+
+  # ========================
+  # Ripple / USDT Futures (ML Strategy)
+  # ========================
+  XRPUSDT_ML:
+    enabled: true
+    contract_type: PERPETUAL
+    allocation_pct: 25
+    strategy: "ml"
+    leverage: 3
+    position_mode: "ONE_WAY"
+    stop_loss_pct: 0.025
+    take_profit_pct: 0.05
+
+    ml:
+      model_path: "models/xrpusdt_ml_model.pkl"
+      threshold_buy: 0.65
+      threshold_sell: 0.35
+      interval: "1h"
+      lookback: 50
+      zone:
+        lower: 1.90
+        upper: 3.0
+      trade_cache_refresh: 3600
+
+# =============================================================================
+# End of Configuration
+# =============================================================================

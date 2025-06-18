@@ -1,0 +1,11 @@
+python src/ml/train.py \
+  --symbol XRPUSDT \
+  --interval 1h \
+  --lookback 50 \
+  --trades_path "..\..\my_trades.csv"
+
+
+
+python src/ml/train.py --symbol XRPUSDT --interval 1h --lookback 50 --trades_path "../../my_trades.csv"
+
+python src/ml/train.py --symbol XRPUSDT --interval 1h --lookback 50
